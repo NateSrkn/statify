@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { getSession, signIn, useSession } from "next-auth/client";
+import { getSession, signIn, useSession, signOut } from "next-auth/client";
 import Image from "next/image";
 import { useTopItems } from "../hooks/useTopItems";
-import { useTopArtists } from "../hooks/useTopArtists";
+
 import { useCurrentlyPlaying } from "../hooks/useCurrentlyPlaying";
 import { useRecentlyPlayed } from "../hooks/useRecentlyPlayed";
 import { Table } from "../components/Table";
@@ -59,7 +59,11 @@ export default function Home({
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main className={styles.main}>
+        <div>
+          <button onClick={() => signOut()}>Sign Out</button>
+        </div>
         {session && (
           <div className="user-wrapper">
             <Image height={175} width={175} src={session.user.image} />
@@ -136,6 +140,10 @@ export async function getServerSideProps({ req, res }) {
     return {
       props: {
         session: null,
+        topTracks: [{}, {}, {}],
+        topArtists: [{}, {}, {}],
+        recentlyPlayed: {},
+        nowPlaying: null,
       },
     };
   }
