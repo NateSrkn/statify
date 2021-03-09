@@ -69,7 +69,7 @@ export default function Home({
             <Image height={175} width={175} src={session.user.image} />
             <div className="user-data">
               <h1>{session.user.name}</h1>
-              {currentlyPlaying && (
+              {currentlyPlaying.song && (
                 <React.Fragment>
                   <div className="main-content">{currentlyPlaying.song}</div>
                   <div className="secondary-content">

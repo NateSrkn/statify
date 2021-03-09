@@ -2,18 +2,21 @@ import { getSession } from "next-auth/client";
 import { api } from "../../utils/helpers";
 
 const transformCurrentlyPlaying = (data) => {
-  const { item, progress_ms, is_playing, currently_playing_type } = data;
-  const { album, artists, name, duration_ms, preview_url } = item;
-  return {
-    progress: progress_ms,
-    is_playing,
-    currently_playing_type,
-    album,
-    artists,
-    song: name,
-    duration: duration_ms,
-    preview_url,
-  };
+  if (!!data) {
+    const { item, progress_ms, is_playing, currently_playing_type } = data;
+    const { album, artists, name, duration_ms, preview_url } = item;
+    return {
+      progress: progress_ms,
+      is_playing,
+      currently_playing_type,
+      album,
+      artists,
+      song: name,
+      duration: duration_ms,
+      preview_url,
+    };
+  }
+  return {};
 };
 
 export const getNowPlaying = async (session) => {
