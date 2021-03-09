@@ -1,0 +1,81 @@
+@import url("https://use.typekit.net/zuc4elb.css");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+:root {
+  --black: rgb(26, 32, 44);
+  --off-black: #7f8ea3;
+  --white: rgb(255, 255, 255);
+}
+
+body {
+  background-color: var(--black);
+  color: var(--white);
+  font-family: Helvetica Neue;
+  font-weight: normal;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+table {
+  /* border: 0.5px solid var(--off-black); */
+}
+
+td {
+  padding: 5px;
+}
+.row-main-content {
+  font-size: 1.25rem;
+}
+
+.row-secondary-content {
+  margin: 5px 0;
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--off-black);
+}
+
+.tables {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* flex-wrap: wrap; */
+  gap: 10px;
+}
+
+.user-wrapper {
+  display: flex;
+  gap: 15px;
+}
+
+.user-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.secondary-content {
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--off-black);
+}
+
+.user-data h1 {
+  font-size: 2.5vh;
+}
