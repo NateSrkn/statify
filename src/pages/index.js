@@ -7,18 +7,31 @@ import { useTopItems } from "../hooks/useTopItems";
 
 import { useCurrentlyPlaying } from "../hooks/useCurrentlyPlaying";
 import { useRecentlyPlayed } from "../hooks/useRecentlyPlayed";
-import { Table } from "../components/Table";
+import { Table } from "../components/Table/index";
 import { getNowPlaying } from "./api/playing";
-import { getRecentlyPlayed } from "./api/recent";
+// import { getRecentlyPlayed } from "./api/recent";
 import { getTopItems } from "./api/top";
+import tw, { styled } from "twin.macro";
+
+const Button = tw.button`text-white border-0 bg-green-400 p-2 rounded-full`;
+const TableNumber = styled.td`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  font-size: 18px;
+  color: var(--off-black);
+  padding: 0 0 0 1.5rem;
+`;
 export default function Home({
   session: serverSession,
   nowPlaying,
-  recentlyPlayed,
+  // recentlyPlayed,
   topTracks,
   topArtists,
 }) {
   const [termLength, setTermLength] = useState("short_term");
+
   const [session, isLoading] = useSession();
   const [
     { data: tracksShort },
@@ -32,7 +45,7 @@ export default function Home({
   ] = useTopItems("artists", topArtists);
 
   const { data: currentlyPlaying } = useCurrentlyPlaying(nowPlaying);
-  const { data: recentTracks } = useRecentlyPlayed(recentlyPlayed);
+  // const { data: recentTracks } = useRecentlyPlayed(recentlyPlayed);
 
   const tracks = {
     short_term: tracksShort,
@@ -45,58 +58,88 @@ export default function Home({
     long_term: artistsLong,
   };
 
+  const termTitles = {
+    short_term: "Last Month",
+    medium_term: "Last 6 Months",
+    long_term: "All Time",
+  };
+
   if (!serverSession) {
     return (
       <div className={styles.container}>
-        <button onClick={() => signIn("spotify")}>Sign In</button>
+        <Button onClick={() => signIn("spotify")}>Sign In</Button>
       </div>
     );
   }
   if (isLoading) return null;
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
+        <title>
+          Statify
+          {currentlyPlaying.song
+            ? ` | ${currentlyPlaying.song} - ${currentlyPlaying.artists
+                .map(({ name }) => name)
+                .join(",")}`
+            : ""}
+        </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <div>
-          <button onClick={() => signOut()}>Sign Out</button>
-        </div>
+      <main tw="max-w-screen-2xl mx-auto">
         {session && (
-          <div className="user-wrapper">
+          <div tw="flex items-center">
             <Image height={175} width={175} src={session.user.image} />
-            <div className="user-data">
-              <h1>{session.user.name}</h1>
-              {currentlyPlaying.song && (
-                <React.Fragment>
-                  <div className="main-content">{currentlyPlaying.song}</div>
-                  <div className="secondary-content">
-                    {currentlyPlaying.artists.map(({ name }) => name).join(",")}
+            <div className="user-wrapper" tw="flex">
+              <div className="user-data" tw="m-4 flex-1">
+                <h1>{session.user.name}</h1>
+                {currentlyPlaying.song && (
+                  <React.Fragment>
+                    <div className="main-content">{currentlyPlaying.song}</div>
+                    <div className="secondary-content">
+                      {currentlyPlaying.artists
+                        .map(({ name }) => name)
+                        .join(",")}
+                    </div>
+                  </React.Fragment>
+                )}
+                <div tw="py-2 flex flex-col">
+                  <div>{termTitles[termLength]}</div>
+                  <div>
+                    <button onClick={() => setTermLength("short_term")}>
+                      Last Month
+                    </button>
+                    <button onClick={() => setTermLength("medium_term")}>
+                      6 Months
+                    </button>
+                    <button onClick={() => setTermLength("long_term")}>
+                      All Time
+                    </button>
                   </div>
-                </React.Fragment>
-              )}
+                </div>
+                <div tw="my-4">
+                  <Button onClick={() => signOut()}>Sign Out</Button>
+                </div>
+              </div>
             </div>
           </div>
         )}
-        <button onClick={() => setTermLength("short_term")}>Last Month</button>
-        <button onClick={() => setTermLength("medium_term")}>6 Months</button>
-        <button onClick={() => setTermLength("long_term")}>All Time</button>
-        <div className="tables">
+
+        <div tw="min-w-full grid grid-cols-1 md:grid-cols-2">
           <Table tableHeader={"Top Tracks"}>
+            <h3 tw="py-4">Top Tracks</h3>
             {tracks[termLength].items?.map(
               ({ name, album, artists }, index) => (
-                <tr key={name + index}>
-                  <td>{index + 1}</td>
-                  <td>
+                <tr key={name + index} tw="flex">
+                  <TableNumber>{index + 1}</TableNumber>
+                  <td tw="px-6 py-6">
                     <Image
                       width={album.images[1].width / 4}
                       height={album.images[1].height / 4}
                       src={album.images[1].url}
                     />
                   </td>
-                  <td>
+                  <td tw="py-6 m-4">
                     <div className="row-main-content">{name}</div>
                     <div className="row-secondary-content">
                       {artists.map(({ name }) => name).join(", ")}
@@ -107,18 +150,19 @@ export default function Home({
             )}
           </Table>
           <Table tableHeader={"Top Artists"}>
+            <h3 tw="py-4">Top Artists</h3>
             {artists[termLength].items?.map(
               ({ name, images, genres }, index) => (
-                <tr key={name + index}>
-                  <td>{index + 1}</td>
-                  <td>
+                <tr key={name + index} tw="flex">
+                  <TableNumber>{index + 1}</TableNumber>
+                  <td tw="px-6 py-6">
                     <Image
                       width={images[1].width / 4}
                       height={images[1].height / 4}
                       src={images[1].url}
                     />
                   </td>
-                  <td>
+                  <td tw="py-6 m-4">
                     <div className="row-main-content">{name}</div>
                     <div className="row-secondary-content">
                       {genres.join(", ")}
@@ -148,7 +192,7 @@ export async function getServerSideProps({ req, res }) {
     };
   }
   const nowPlaying = await getNowPlaying(session);
-  const recentlyPlayed = await getRecentlyPlayed(session);
+  // const recentlyPlayed = await getRecentlyPlayed(session);
   const topTracks = await Promise.all([
     getTopItems({ type: "tracks", time_range: "short_term" }, session),
     getTopItems({ type: "tracks", time_range: "medium_term" }, session),
@@ -163,7 +207,7 @@ export async function getServerSideProps({ req, res }) {
     props: {
       session,
       nowPlaying,
-      recentlyPlayed,
+      // recentlyPlayed,
       topTracks,
       topArtists,
     },
