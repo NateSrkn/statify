@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../styles/globals.css";
+import "../styles/globals.scss";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "next-auth/client";
 const queryClient = new QueryClient();

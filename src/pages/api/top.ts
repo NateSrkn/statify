@@ -1,4 +1,4 @@
-import { getSession, session } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import { api } from "../../utils/helpers";
 
 export const getTopItems = async (

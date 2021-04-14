@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { getSession, signIn, useSession, signOut } from "next-auth/client";
@@ -6,16 +6,12 @@ import Image from "next/image";
 import { useTopItems } from "../hooks/useTopItems";
 
 import { useCurrentlyPlaying } from "../hooks/useCurrentlyPlaying";
-import { useRecentlyPlayed } from "../hooks/useRecentlyPlayed";
-import { Table } from "../components/Table/index";
 import { getNowPlaying } from "./api/playing";
-// import { getRecentlyPlayed } from "./api/recent";
 import { getTopItems } from "./api/top";
 
 export default function Home({
   session: serverSession,
   nowPlaying,
-  // recentlyPlayed,
   topTracks,
   topArtists,
 }) {
@@ -34,7 +30,6 @@ export default function Home({
   ] = useTopItems("artists", topArtists);
 
   const { data: currentlyPlaying } = useCurrentlyPlaying(nowPlaying);
-  // const { data: recentTracks } = useRecentlyPlayed(recentlyPlayed);
 
   const tracks = {
     short_term: tracksShort,
@@ -115,52 +110,43 @@ export default function Home({
         )}
 
         <div>
-          <Table tableHeader={"Top Tracks"}>
-            <h3>Top Tracks</h3>
-            {tracks[termLength].items?.map(
-              ({ name, album, artists }, index) => (
-                <tr key={name + index}>
-                  <div>{index + 1}</div>
-                  <td>
-                    <Image
-                      width={album.images[1].width / 4}
-                      height={album.images[1].height / 4}
-                      src={album.images[1].url}
-                    />
-                  </td>
-                  <td>
-                    <div className="row-main-content">{name}</div>
-                    <div className="row-secondary-content">
-                      {artists.map(({ name }) => name).join(", ")}
-                    </div>
-                  </td>
-                </tr>
-              )
-            )}
-          </Table>
-          <Table tableHeader={"Top Artists"}>
-            <h3>Top Artists</h3>
-            {artists[termLength].items?.map(
-              ({ name, images, genres }, index) => (
-                <tr key={name + index}>
-                  <div>{index + 1}</div>
-                  <td>
-                    <Image
-                      width={images[1].width / 4}
-                      height={images[1].height / 4}
-                      src={images[1].url}
-                    />
-                  </td>
-                  <td>
-                    <div className="row-main-content">{name}</div>
-                    <div className="row-secondary-content">
-                      {genres.join(", ")}
-                    </div>
-                  </td>
-                </tr>
-              )
-            )}
-          </Table>
+          <h3>Top Tracks</h3>
+          {tracks[termLength].items?.map(({ name, album, artists }, index) => (
+            <tr key={name + index}>
+              <div>{index + 1}</div>
+              <td>
+                <Image
+                  width={album.images[1].width / 4}
+                  height={album.images[1].height / 4}
+                  src={album.images[1].url}
+                />
+              </td>
+              <td>
+                <div className="row-main-content">{name}</div>
+                <div className="row-secondary-content">
+                  {artists.map(({ name }) => name).join(", ")}
+                </div>
+              </td>
+            </tr>
+          ))}
+
+          <h3>Top Artists</h3>
+          {artists[termLength].items?.map(({ name, images, genres }, index) => (
+            <tr key={name + index}>
+              <div>{index + 1}</div>
+              <td>
+                <Image
+                  width={images[1].width / 4}
+                  height={images[1].height / 4}
+                  src={images[1].url}
+                />
+              </td>
+              <td>
+                <div className="row-main-content">{name}</div>
+                <div className="row-secondary-content">{genres.join(", ")}</div>
+              </td>
+            </tr>
+          ))}
         </div>
       </main>
     </div>
