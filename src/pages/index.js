@@ -11,18 +11,7 @@ import { Table } from "../components/Table/index";
 import { getNowPlaying } from "./api/playing";
 // import { getRecentlyPlayed } from "./api/recent";
 import { getTopItems } from "./api/top";
-import tw, { styled } from "twin.macro";
 
-const Button = tw.button`text-white border-0 bg-green-400 p-2 rounded-full`;
-const TableNumber = styled.td`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  font-size: 18px;
-  color: var(--off-black);
-  padding: 0 0 0 1.5rem;
-`;
 export default function Home({
   session: serverSession,
   nowPlaying,
@@ -67,7 +56,7 @@ export default function Home({
   if (!serverSession) {
     return (
       <div className={styles.container}>
-        <Button onClick={() => signIn("spotify")}>Sign In</Button>
+        <button onClick={() => signIn("spotify")}>Sign In</button>
       </div>
     );
   }
@@ -86,12 +75,12 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main tw="max-w-screen-2xl mx-auto">
+      <main>
         {session && (
-          <div tw="flex items-center">
+          <div>
             <Image height={175} width={175} src={session.user.image} />
-            <div className="user-wrapper" tw="flex">
-              <div className="user-data" tw="m-4 flex-1">
+            <div className="user-wrapper">
+              <div className="user-data">
                 <h1>{session.user.name}</h1>
                 {currentlyPlaying.song && (
                   <React.Fragment>
@@ -103,7 +92,7 @@ export default function Home({
                     </div>
                   </React.Fragment>
                 )}
-                <div tw="py-2 flex flex-col">
+                <div>
                   <div>{termTitles[termLength]}</div>
                   <div>
                     <button onClick={() => setTermLength("short_term")}>
@@ -117,29 +106,29 @@ export default function Home({
                     </button>
                   </div>
                 </div>
-                <div tw="my-4">
-                  <Button onClick={() => signOut()}>Sign Out</Button>
+                <div>
+                  <button onClick={() => signOut()}>Sign Out</button>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        <div tw="min-w-full grid grid-cols-1 md:grid-cols-2">
+        <div>
           <Table tableHeader={"Top Tracks"}>
-            <h3 tw="py-4">Top Tracks</h3>
+            <h3>Top Tracks</h3>
             {tracks[termLength].items?.map(
               ({ name, album, artists }, index) => (
-                <tr key={name + index} tw="flex">
-                  <TableNumber>{index + 1}</TableNumber>
-                  <td tw="px-6 py-6">
+                <tr key={name + index}>
+                  <div>{index + 1}</div>
+                  <td>
                     <Image
                       width={album.images[1].width / 4}
                       height={album.images[1].height / 4}
                       src={album.images[1].url}
                     />
                   </td>
-                  <td tw="py-6 m-4">
+                  <td>
                     <div className="row-main-content">{name}</div>
                     <div className="row-secondary-content">
                       {artists.map(({ name }) => name).join(", ")}
@@ -150,19 +139,19 @@ export default function Home({
             )}
           </Table>
           <Table tableHeader={"Top Artists"}>
-            <h3 tw="py-4">Top Artists</h3>
+            <h3>Top Artists</h3>
             {artists[termLength].items?.map(
               ({ name, images, genres }, index) => (
-                <tr key={name + index} tw="flex">
-                  <TableNumber>{index + 1}</TableNumber>
-                  <td tw="px-6 py-6">
+                <tr key={name + index}>
+                  <div>{index + 1}</div>
+                  <td>
                     <Image
                       width={images[1].width / 4}
                       height={images[1].height / 4}
                       src={images[1].url}
                     />
                   </td>
-                  <td tw="py-6 m-4">
+                  <td>
                     <div className="row-main-content">{name}</div>
                     <div className="row-secondary-content">
                       {genres.join(", ")}
