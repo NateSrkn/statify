@@ -167,7 +167,6 @@ export async function getServerSideProps({ req, res }) {
     };
   }
   const nowPlaying = await getNowPlaying(session);
-  // const recentlyPlayed = await getRecentlyPlayed(session);
   const topTracks = await Promise.all([
     getTopItems({ type: "tracks", time_range: "short_term" }, session),
     getTopItems({ type: "tracks", time_range: "medium_term" }, session),
@@ -182,7 +181,6 @@ export async function getServerSideProps({ req, res }) {
     props: {
       session,
       nowPlaying,
-      // recentlyPlayed,
       topTracks,
       topArtists,
     },
