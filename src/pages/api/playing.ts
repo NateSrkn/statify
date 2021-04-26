@@ -1,5 +1,7 @@
 import { getSession } from "next-auth/client";
+import { Session } from "next-auth";
 import { api } from "../../utils/helpers";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const transformCurrentlyPlaying = (data) => {
   if (!!data) {
@@ -19,7 +21,7 @@ const transformCurrentlyPlaying = (data) => {
   return {};
 };
 
-export const getNowPlaying = async (session) => {
+export const getNowPlaying = async (session: Session) => {
   const { data } = await api({
     url: "me/player/currently-playing",
     headers: { Authorization: `Bearer ${session.accessToken}` },
@@ -27,7 +29,7 @@ export const getNowPlaying = async (session) => {
   return transformCurrentlyPlaying(data);
 };
 
-export default async function (req, res) {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
     const session = await getSession({ req });
     if (!session) throw session;
