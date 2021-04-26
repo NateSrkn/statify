@@ -7,10 +7,7 @@ export const MouseFollower: React.FC<{ isOffset?: boolean }> = ({
 }) => {
   const { x, y } = useContext(MousePositionContext);
   const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
-  const ref = useRef({
-    offsetWidth: 0,
-    offsetHeight: 0,
-  });
+  const ref = useRef(null);
   useEffect(() => {
     setDimensions({
       width: ref.current.offsetWidth / 2,
