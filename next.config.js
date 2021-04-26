@@ -6,6 +6,10 @@ module.exports = {
     return config;
   },
   images: {
-    domains: ["i.scdn.co", "scontent-ort2-2.xx.fbcdn.net"],
+    domains: [
+      "i.scdn.co",
+      "scontent-ort2-2.xx.fbcdn.net",
+      "scontent-ort2-1.xx.fbcdn.net",
+    ],
   },
 };

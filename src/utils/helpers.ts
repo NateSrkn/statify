@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 const client_id = process.env.NEXT_PUBLIC_CLIENT_ID;
 const client_secret = process.env.NEXT_PUBLIC_CLIENT_SECRET;
@@ -40,7 +40,12 @@ export const getRefreshToken = async (token) => {
   }
 };
 
-export const api = async ({ url, method = "get", params, headers = {} }) => {
+export const api = async ({
+  url,
+  method = "get",
+  params,
+  headers = {},
+}: AxiosRequestConfig): Promise<any> => {
   try {
     return await axios({
       baseURL: "https://api.spotify.com/v1/",

@@ -1,29 +1,45 @@
-@import url("https://use.typekit.net/zuc4elb.css");
+@import url("https://use.typekit.net/kux7wia.css");
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "graphie", sans-serif;
   width: 100%;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "new-spirit", serif;
+}
+
 :root {
+  --tan: #e1e1be;
+  --blue: #083d77;
+  --light-blue: #90bede;
   --black: rgb(26, 32, 44);
   --off-black: #7f8ea3;
   --white: rgb(255, 255, 255);
   --border-size: 0.5px;
 }
 
+main {
+  color: var(--light-blue);
+}
+
 body {
-  background-color: var(--black);
-  color: var(--white);
-  font-family: Helvetica Neue;
+  background-color: var(--white);
+  color: var(--black);
   font-weight: normal;
 }
 
@@ -34,11 +50,6 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-table,
-tr {
-  border: var(--border-size) solid var(--off-black);
 }
 
 .row-main-content {
@@ -68,6 +79,16 @@ tr {
   color: var(--off-black);
 }
 
-.user-data h1 {
-  font-size: 2.5vh;
+.border {
+  position: relative;
+  &::after {
+    content: "";
+    height: 2px;
+    color: inherit;
+    background: currentColor;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
 }

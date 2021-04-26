@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// @ts-nocheck
 import Providers from "next-auth/providers";
 import NextAuth from "next-auth";
-import { storage, getRefreshToken } from "../../../utils/helpers";
+import { getRefreshToken } from "../../../utils/helpers";
 
 export default NextAuth({
   providers: [
@@ -21,7 +22,7 @@ export default NextAuth({
       if (account && user) {
         return {
           accessToken: account.accessToken,
-          accessTokenExpires: Date.now() + account.expires_in * 1000,
+          accessTokenExpires: Date.now() + <number>account.expires_in * 1000,
           refreshToken: account.refresh_token,
           user,
         };
