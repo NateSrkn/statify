@@ -1,7 +1,9 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
+import { Session } from "next-auth";
 import { api } from "../../utils/helpers";
 
-export const getRecentlyPlayed = async (session) => {
+export const getRecentlyPlayed = async (session: Session) => {
   const { data } = await api({
     url: "me/player/recently-played",
     headers: { Authorization: `Bearer ${session.accessToken}` },
@@ -9,7 +11,7 @@ export const getRecentlyPlayed = async (session) => {
 
   return data;
 };
-export default async function (req, res) {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
     const session = await getSession({ req });
     if (!session) throw session;

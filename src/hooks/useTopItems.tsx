@@ -1,6 +1,11 @@
 import { useQueries } from "react-query";
 import axios from "axios";
-export const useTopItems = (type, [shortTerm, mediumTerm, longTerm]) => {
+import { Session } from "next-auth";
+export const useTopItems = (
+  type: "artists" | "tracks",
+  session: Session,
+  [shortTerm, mediumTerm, longTerm] = [undefined, undefined, undefined]
+) => {
   return useQueries([
     {
       queryKey: `top-${type}-short-term`,
@@ -8,9 +13,10 @@ export const useTopItems = (type, [shortTerm, mediumTerm, longTerm]) => {
         axios({
           url: "/api/top",
           params: { type, time_range: "short_term" },
-        }).then(({ data }) => data),
+        }).then(({ data: { data } }) => data),
       staleTime: Infinity,
       initialData: shortTerm,
+      enabled: !!session,
     },
     {
       queryKey: `top-${type}-mid-term`,
@@ -18,9 +24,10 @@ export const useTopItems = (type, [shortTerm, mediumTerm, longTerm]) => {
         axios({
           url: "/api/top",
           params: { type, time_range: "medium_term" },
-        }).then(({ data }) => data),
+        }).then(({ data: { data } }) => data),
       staleTime: Infinity,
       initialData: mediumTerm,
+      enabled: !!session,
     },
     {
       queryKey: `top-${type}-long-term`,
@@ -28,9 +35,10 @@ export const useTopItems = (type, [shortTerm, mediumTerm, longTerm]) => {
         axios({
           url: "/api/top",
           params: { type, time_range: "long_term" },
-        }).then(({ data }) => data),
+        }).then(({ data: { data } }) => data),
       staleTime: Infinity,
       initialData: longTerm,
+      enabled: !!session,
     },
   ]);
 };

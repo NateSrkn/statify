@@ -3,13 +3,10 @@ import { Footer } from "./Footer";
 import Header from "./Header";
 
 export const Layout: React.FC = ({ children }) => {
-  const pageMargin = "20px";
   return (
-    <div>
+    <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
       <Header />
-      <main style={{ margin: pageMargin, background: "var(--blue)" }}>
-        {children}
-      </main>
+      <main style={{ margin: 10 }}>{children}</main>
       <Footer />
     </div>
   );

@@ -1,22 +1,35 @@
 import { Artist, Track } from "../../types/spotify";
 import { ListItem } from "./ListItem";
 import { motion, AnimateSharedLayout } from "framer-motion";
-import { useState } from "react";
-export const List: React.FC<{ items: Track[] | Artist[] }> = ({ items }) => {
-  const [selectedItem, setSelectedItem] = useState(null);
+import { useAtom } from "jotai";
+import { activeArtist } from "../../store/active";
 
-  const handleSelectingItem = (id: number) => {
-    setSelectedItem(id === selectedItem ? null : id);
+export const List: React.FC<{
+  items: Track[] | Artist[];
+  minColumnSize?: number;
+}> = ({ items, minColumnSize = 150 }) => {
+  const [selectedItem, setSelectItem] = useAtom(activeArtist);
+  const handleSelectingItem = ({ id, type }) => {
+    setSelectItem(
+      id === selectedItem.id ? { id: null, type: null } : { id, type }
+    );
   };
   return (
     <AnimateSharedLayout>
-      <motion.ul layout style={{ listStyle: "none" }}>
-        {items.map((item: Track | Artist) => (
+      <motion.ul
+        layout
+        className="grid"
+        style={{
+          listStyle: "none",
+          gridTemplateColumns: `repeat(auto-fill, minmax(${minColumnSize}px, .5fr))`,
+        }}
+      >
+        {items?.map((item: Track | Artist, index: number) => (
           <ListItem
             key={item.id}
             item={item}
-            isSelected={selectedItem === item.id}
             selectItem={handleSelectingItem}
+            isSelected={item.id === selectedItem.id}
           />
         ))}
       </motion.ul>

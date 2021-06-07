@@ -13,6 +13,7 @@ export const LandingPage = () => {
           flexDirection: "column",
           justifyContent: "center",
           width: "100%",
+          background: "var(--blue)",
         }}
       >
         <div style={{ margin: "0 auto" }}>

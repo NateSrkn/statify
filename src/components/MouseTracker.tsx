@@ -15,6 +15,7 @@ export const MouseTracker: React.FC = ({ children }) => {
     <MousePositionContext.Provider value={mousePosition}>
       <div
         onMouseMove={handleMousePosition}
+        style={{ backgroundColor: "var(--black)" }}
         aria-label="Container to track the mouse position"
       >
         {children}

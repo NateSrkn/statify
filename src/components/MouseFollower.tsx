@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { MousePositionContext } from "./MouseTracker";
 
 export const MouseFollower: React.FC<{ isOffset?: boolean }> = ({
-  isOffset = true,
   children,
 }) => {
   const { x, y } = useContext(MousePositionContext);
@@ -18,7 +17,7 @@ export const MouseFollower: React.FC<{ isOffset?: boolean }> = ({
   return (
     <div
       style={{
-        top: `${y - dimensions.height + (isOffset ? 25 : 0)}px`,
+        top: `${y - dimensions.height * 2 - 25}px`,
         left: `${x - dimensions.width}px`,
       }}
       className="mouse-follower"
